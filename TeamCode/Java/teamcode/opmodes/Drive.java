@@ -19,7 +19,7 @@ import dev.nextftc.hardware.impl.MotorEx;
 
 /**
  * The Drive class is the main TeleOp opmode for the robot.
- * It initializes the robot's subsystems and components, and maps gamepad controls to robot actions.
+ * It initializes the robot's subsystems and components, and maps gamepad controls to robot actions. 
  */
 @TeleOp(name = "Drive(NextFTC)")
 public class Drive extends NextFTCOpMode {
