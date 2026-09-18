@@ -1,5 +1,5 @@
 # Ignore ALL JavaScript files anywhere in the project
-**/*.js linguist-language=Java
+**/*.js linguist-language=Java 
 **/*.js linguist-vendored
 
 # Explicitly prioritize Java
