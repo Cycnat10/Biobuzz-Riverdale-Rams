@@ -1,3 +1,6 @@
-*.java linguist-detectable=true
-# Exclude your JS files or folders from language stats if they are skewing the repo:
-/*.js linguist-detectable=false
+# Ignore ALL JavaScript files anywhere in the project
+**/*.js linguist-language=Java
+**/*.js linguist-vendored
+
+# Explicitly prioritize Java
+**/*.java linguist-detectable=true
