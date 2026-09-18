@@ -1,3 +1,0 @@
-*.java linguist-detectable=true
-# Exclude your JS files or folders from language stats if they are skewing the repo:
-/*.js linguist-detectable=false
