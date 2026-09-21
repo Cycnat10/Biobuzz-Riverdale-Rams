@@ -1,0 +1,8 @@
+# Ignore all build and gradle artifacts from language statistics
+build/** linguist-vendored
+.gradle/** linguist-vendored
+*.js linguist-documentation
+*.html linguist-documentation
+
+# Explicitly ensure your Java code is tracked
+*.java linguist-detectable=true
