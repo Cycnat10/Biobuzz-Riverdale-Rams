@@ -38,24 +38,17 @@ public class MORTARTeleop extends LinearOpMode {
         //Servos
         outtakeFeeder = hardwareMap.get(Servo.class, "feeder");
         //Motors
-<<<<<<< Updated upstream
         topMotor = hardwareMap.get(DcMotorEx.class, "top");
         bottomMotor = hardwareMap.get(DcMotorEx.class, "bottom");
-=======
         leftShooter = hardwareMap.get(DcMotorEx.class, "top");
         rightShooter = hardwareMap.get(DcMotorEx.class, "bottom");
->>>>>>> Stashed changes
         intake = hardwareMap.get(DcMotor.class, "intake");
         LFront = hardwareMap.get(DcMotor.class, "leftfront");
         RFront = hardwareMap.get(DcMotor.class, "rightfront");
         LBack = hardwareMap.get(DcMotor.class, "leftback");
         RBack = hardwareMap.get(DcMotor.class, "rightback");
         turret = hardwareMap.get(DcMotorEx.class, "turret");
-<<<<<<< Updated upstream
-        //LimeLght3A
-=======
         //LimeLight3A
->>>>>>> Stashed changes
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(0);
         limelight.start();
@@ -66,12 +59,9 @@ public class MORTARTeleop extends LinearOpMode {
         boolean ableToSwitchMode = true;
         boolean autoAiming = true;
         boolean ableToAim = true;
-<<<<<<< Updated upstream
-=======
         boolean TurretLeft = false;
         boolean TurretRight = false;
         boolean TurretStop = true;
->>>>>>> Stashed changes
         //Modes
         String driveMode = "FAST";
         //Numbers
@@ -88,15 +78,12 @@ public class MORTARTeleop extends LinearOpMode {
         turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
         //PIDF Coefficients
-<<<<<<< Updated upstream
         topMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
         bottomMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
-=======
         //Do turret PIDF Later
         turret.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients());
         leftShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075,0,0,14));
         rightShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075,0,0,14));
->>>>>>> Stashed changes
         //Get the flicker set
         outtakeFeeder.setPosition(0);
         while (opModeIsActive()) {
@@ -113,7 +100,6 @@ public class MORTARTeleop extends LinearOpMode {
                             double a = result.getTa();//Tag Area
                             autoAiming = true;
                             //Auto Aiming Code
-<<<<<<< Updated upstream
                             if (autoAiming) {
                                 if (x > 1.1) {
                                     TurnLeft(turret);
@@ -122,7 +108,6 @@ public class MORTARTeleop extends LinearOpMode {
                                 } else {
                                     Stop(turret);
                                     autoAiming = false;
-=======
                             if(autoAiming)
                             {
                                 if(x > 1.1)
@@ -130,7 +115,6 @@ public class MORTARTeleop extends LinearOpMode {
                                     TurretLeft(turret, x);
                                 } else if (x < -1.1) {
                                     TurretRight(turret, x);
->>>>>>> Stashed changes
                                 }
                                 if (!autoAiming) {
                                     if (gamepad1.dpad_left) {
@@ -146,15 +130,11 @@ public class MORTARTeleop extends LinearOpMode {
                     }
                 } else if (autoAiming) {
                     //Stops if there is no April Tag
-<<<<<<< Updated upstream
                     Stop(turret);
                     autoAiming = false;
                 } else {
-=======
                     Stop(LFront, RFront, LBack, RBack);
-                }
-                else {
->>>>>>> Stashed changes
+                } else {
                     //Manual Flywheel speed just in case ;)
                     if (gamepad2.left_trigger != 0) {
                         velocity = 830;
