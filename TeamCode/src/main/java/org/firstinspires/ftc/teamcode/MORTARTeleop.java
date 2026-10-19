@@ -98,21 +98,14 @@ public class MORTARTeleop extends LinearOpMode {
                             double a = result.getTa();//Tag Area
                             autoAiming = true;
                             //Auto Aiming Code
-                            if (autoAiming) {
-                                if (x > 1.1) {
-                                    TurretLeft(turret);
-                                } else if (x < -1.1) {
-                                    TurretRight(turret);
-                                } else {
-                                    TurretStop(turret);
-                                    autoAiming = false;
-                                }
+
+                                // Deleted x after turret on both if statements
                                 if (autoAiming) {
                                     if (x > 1.1) {
-                                        TurretLeft(turret, x);
+                                        TurretLeft(turret);
                                     } else if (x < -1.1) {
-                                        TurretRight(turret, x);
-                                    }
+                                        TurretRight(turret);
+                                    } }
                                     if (!autoAiming) {
                                         if (gamepad1.dpad_left) {
                                             TurretLeft(turret);
@@ -120,13 +113,12 @@ public class MORTARTeleop extends LinearOpMode {
                                             TurretRight(turret);
                                         }
                                     }
-                                }
 
                                 //Auto-Velocity Code
                                 velocity = 1325 - ((195 * a) - 30);
-                            }
                         }
-                    } else if (autoAiming) {
+                    }    // Deleted the else before 'if'
+                }  else if (autoAiming) {
                         //Stops if there is no April Tag
                         TurretStop(turret);
                         autoAiming = false;
@@ -137,7 +129,7 @@ public class MORTARTeleop extends LinearOpMode {
                     } else {
                         velocity = 635;
                     }
-                }
+
             }
 
             //Driving
@@ -235,52 +227,46 @@ public class MORTARTeleop extends LinearOpMode {
     }
 
 
-                        //Applies input to the Drive Motors
-                        public static void ApplyInputToMotors ( double Ly, double Lx, double Rx, String driveMode, DcMotor LFront, DcMotor RFront, DcMotor LBack, DcMotor RBack, DcMotorEx turret) {
-                        double Rx, String;
-                        driveMode, DcMotor LFront, DcMotor RFront, DcMotor LBack, DcMotor RBack){
-                            //Inputs
-                            if (driveMode.equals("SLOW")) {
-                                Ly = Ly * .5;
-                                Lx = Lx * .5;
-                            }
-                            //Computing Powers
-                            double LeftFrontWheel = Ly - Lx - Rx;
-                            double RightFrontWheel = Ly + Lx + Rx;
-                            double LeftBackWheel = Ly + Lx - Rx;
-                            double RightBackWheel = Ly - Lx + Rx;
+    //Applies input to the Drive Motors
+    public static void ApplyInputToMotors(double Ly, double Lx, double Rx, String driveMode, DcMotor LFront, DcMotor RFront, DcMotor LBack, DcMotor RBack, DcMotorEx turret) {
+        // Deleted this line which was previously "double Rx, String;" 2 indents forward
+        {
+            //Inputs
+            if (driveMode.equals("SLOW")) {
+                Ly = Ly * .5;
+                Lx = Lx * .5;
+            }
+            //Computing Powers
+            double LeftFrontWheel = Ly - Lx - Rx;
+            double RightFrontWheel = Ly + Lx + Rx;
+            double LeftBackWheel = Ly + Lx - Rx;
+            double RightBackWheel = Ly - Lx + Rx;
 
-                            //Applying Power the Drive Train
-                            LFront.setPower(LeftFrontWheel);
-                            RFront.setPower(RightFrontWheel);
-                            LBack.setPower(LeftBackWheel);
-                            RBack.setPower(RightBackWheel);
-                        }
-                        }
+            //Applying Power the Drive Train
+            LFront.setPower(LeftFrontWheel);
+            RFront.setPower(RightFrontWheel);
+            LBack.setPower(LeftBackWheel);
+            RBack.setPower(RightBackWheel);
+        }
+    }
 
-                        //Turn turret right
-                        public static void TurretRight(DcMotorEx turret)
-                {
-                            double power = .12;
-                            //Applying Power the turret
-                            turret.setPower(power);
-                        }
+    //Turn turret right
+    public static void TurretRight(DcMotorEx turret) {
+        double power = .12;
+        //Applying Power the turret
+        turret.setPower(power);
+    }
 
-                        //Turn turret left
-                        public static void TurretLeft(DcMotorEx turret){
-                            double power = .12;
-                            //Applying Power the turret
-                            turret.setPower(-power);
-                        }
+    //Turn turret left
+    public static void TurretLeft(DcMotorEx turret) {
+        double power = .12;
+        //Applying Power the turret
+        turret.setPower(-power);
+    }
 
-                        //Stop turret
-                        public static void TurretStop(DcMotorEx turret){
-                            //Applying Power the turret
-                            turret.setPower(0);
-                        }
-
-
-
-
-
-
+    //Stop turret
+    public static void TurretStop(DcMotorEx turret) {
+        //Applying Power the turret
+        turret.setPower(0);
+    }
+}
