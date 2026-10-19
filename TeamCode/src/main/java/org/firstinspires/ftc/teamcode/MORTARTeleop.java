@@ -123,13 +123,14 @@ public class MORTARTeleop extends LinearOpMode {
                         TurretStop(turret);
                         autoAiming = false;
                     }
+                else {
                     //Manual Flywheel speed just in case ;)
                     if (gamepad2.left_trigger != 0) {
                         velocity = 830;
                     } else {
                         velocity = 635;
                     }
-
+                }
             }
 
             //Driving
