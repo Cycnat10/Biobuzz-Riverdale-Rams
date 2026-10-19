@@ -16,10 +16,20 @@ public class MORTARTeleop extends LinearOpMode {
     //Extras
     private Limelight3A limelight;
     //Motors
+<<<<<<< Updated upstream
     private DcMotorEx topMotor;
     private DcMotorEx bottomMotor;
     private DcMotorEx leftShooter;
     private DcMotorEx rightShooter;
+=======
+
+    private DcMotorEx topMotor;
+    private DcMotorEx bottomMotor;
+
+    private DcMotorEx leftShooter;
+    private DcMotorEx rightShooter;
+
+>>>>>>> Stashed changes
     private DcMotorEx turret;
     private DcMotor intake;
     private DcMotor LFront;
@@ -99,9 +109,9 @@ public class MORTARTeleop extends LinearOpMode {
                             //Auto Aiming Code
                             if (autoAiming) {
                                 if (x > 1.1) {
-                                    TurnLeft(turret);
+                                    TurretLeft(turret);
                                 } else if (x < -1.1) {
-                                    TurnRight(turret);
+                                    TurretRight(turret);
                                 } else {
                                     Stop(turret);
                                     autoAiming = false;
@@ -163,6 +173,14 @@ public class MORTARTeleop extends LinearOpMode {
                     ableToAim = true;
                 }
             }
+<<<<<<< Updated upstream
+=======
+
+
+            //Shooter
+            if (gamepad2.a)
+            {
+>>>>>>> Stashed changes
             //Shooter On Off
             if (!OnOffShooter) {
                 if (gamepad2.x) {
@@ -197,7 +215,10 @@ public class MORTARTeleop extends LinearOpMode {
                     ableToSwitchMode = true;
                 }
             }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
             //Apply Powers
             //Applies power to the shooter
             if (shooterOn) {
@@ -209,6 +230,7 @@ public class MORTARTeleop extends LinearOpMode {
                     bottomMotor.setVelocity(0);
                     topMotor.setVelocity(-10);
                     bottomMotor.setVelocity(-10);
+<<<<<<< Updated upstream
                     //Applies power to the shooter
                     if (shooterOn) {
                         leftShooter.setVelocity(velocity);
@@ -233,6 +255,25 @@ public class MORTARTeleop extends LinearOpMode {
                     //Drive Mode
                     telemetry.addData("Drive Mode: ", driveMode);
                     telemetry.update();
+=======
+            //Applies power to the shooter
+            if(shooterOn)
+            {
+                leftShooter.setVelocity(velocity);
+                rightShooter.setVelocity(velocity);
+            }
+            else
+            {//Turn off shooter
+                if(OnOffShooter)
+                {
+                    leftShooter.setVelocity(0);
+                    rightShooter.setVelocity(0);
+                    leftShooter.setVelocity(-10);
+                    rightShooter.setVelocity(-10);
+                    sleep(400);
+                    leftShooter.setVelocity(0);
+                    rightShooter.setVelocity(0);
+>>>>>>> Stashed changes
                 }
 
             }
@@ -263,6 +304,10 @@ public class MORTARTeleop extends LinearOpMode {
         }
     }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     //Turn turret right
     public static void TurretRight(DcMotorEx turret) {
         double power = .12;
