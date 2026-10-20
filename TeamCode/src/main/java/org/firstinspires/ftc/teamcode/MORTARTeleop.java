@@ -142,7 +142,7 @@ public class MORTARTeleop extends LinearOpMode {
                     } else {
                         velocity = 635;
                     }
-
+                }
             }
 
             //Driving
