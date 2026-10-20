@@ -79,8 +79,8 @@ public class MORTARTeleop extends LinearOpMode {
         bottomMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
         //Do turret PIDF Later
         turret.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients());
-        leftShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075,0,0,14));
-        rightShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075,0,0,14));
+        leftShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
+        rightShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
         //Get the flicker set
         outtakeFeeder.setPosition(0);
         while (opModeIsActive()) {
@@ -99,51 +99,37 @@ public class MORTARTeleop extends LinearOpMode {
                             //Auto Aiming Code
                             if (autoAiming) {
                                 if (x > 1.1) {
-                                    TurnLeft(turret);
+                                    TurretLeft(turret);
                                 } else if (x < -1.1) {
-                                    TurnRight(turret);
+                                    TurretRight(turret);
                                 } else {
-                                    Stop(turret);
+                                    TurretStop(turret);
                                     autoAiming = false;
-                            if(autoAiming)
-                            {
-                                if(x > 1.1)
-                                {
-                                    TurretLeft(turret, x);
-                                } else if (x < -1.1) {
-                                    TurretRight(turret, x);
                                 }
-                                if (!autoAiming) {
-                                    if (gamepad1.dpad_left) {
-                                        TurnLeft(turret);
-                                    } else if (gamepad1.dpad_right) {
-                                        TurnRight(turret);
-                                    }
-
-                                //Auto-Velocity Code
-                                velocity = 1325 - ((195 * a) - 30);
+                            }
+                            //Auto-Velocity Code
+                            velocity = 1325 - ((195 * a) - 30);
                         }
-                    }    // Deleted the else before 'if'
-                }  else if (autoAiming) {
-                        //Stops if there is no April Tag
-                        TurretStop(turret);
-                        autoAiming = false;
-                    }
-                } else if (autoAiming) {
-                    //Stops if there is no April Tag
-                    Stop(turret);
-                    autoAiming = false;
-                } else {
-                    Stop(LFront, RFront, LBack, RBack);
-                } else {
-                    //Manual Flywheel speed just in case ;)
-                    if (gamepad2.left_trigger != 0) {
-                        velocity = 830;
-                    } else {
-                        velocity = 635;
                     }
                 }
+            }    // Deleted the else before 'if'
+            else if (autoAiming) {
+                //Stops if there is no April Tag
+                TurretStop(turret);
+                autoAiming = false;
+            } else if (autoAiming) {
+                //Stops if there is no April Tag
+                TurretStop(turret);
+                autoAiming = false;
+            }  else{
+                //Manual Flywheel speed just in case ;)
+                if (gamepad2.left_trigger != 0) {
+                    velocity = 830;
+                } else {
+                    velocity = 635;
+                }
             }
+
 
             //Driving
 
@@ -203,45 +189,42 @@ public class MORTARTeleop extends LinearOpMode {
             if (shooterOn) {
                 topMotor.setVelocity(velocity);
                 bottomMotor.setVelocity(velocity);
+            }
+
+            //Turn off shooter
+
+            //Applies power to the shooter
+            if (shooterOn) {
+                leftShooter.setVelocity(velocity);
+                rightShooter.setVelocity(velocity);
             } else {//Turn off shooter
                 if (OnOffShooter) {
-                    topMotor.setVelocity(0);
-                    bottomMotor.setVelocity(0);
-                    topMotor.setVelocity(-10);
-                    bottomMotor.setVelocity(-10);
-                    //Applies power to the shooter
-                    if (shooterOn) {
-                        leftShooter.setVelocity(velocity);
-                        rightShooter.setVelocity(velocity);
-                    } else {//Turn off shooter
-                        if (OnOffShooter) {
-                            leftShooter.setVelocity(0);
-                            rightShooter.setVelocity(0);
-                            leftShooter.setVelocity(-10);
-                            rightShooter.setVelocity(-10);
-                            sleep(400);
-                            leftShooter.setVelocity(0);
-                            rightShooter.setVelocity(0);
-                        }
-                    }
-
-
-                    //Telemetry
-                    //Shooter
-                    telemetry.addData("Velocity: ", velocity);
-                    telemetry.addData("Shooter On: ", shooterOn);
-                    //Drive Mode
-                    telemetry.addData("Drive Mode: ", driveMode);
-                    telemetry.update();
+                    leftShooter.setVelocity(0);
+                    rightShooter.setVelocity(0);
+                    leftShooter.setVelocity(-10);
+                    rightShooter.setVelocity(-10);
+                    sleep(400);
+                    leftShooter.setVelocity(0);
+                    rightShooter.setVelocity(0);
                 }
-
             }
+
+
+            //Telemetry
+            //Shooter
+            telemetry.addData("Velocity: ", velocity);
+            telemetry.addData("Shooter On: ", shooterOn);
+            //Drive Mode
+            telemetry.addData("Drive Mode: ", driveMode);
+            telemetry.update();
         }
     }
 
 
     //Applies input to the Drive Motors
-    public static void ApplyInputToMotors(double Ly, double Lx, double Rx, String driveMode, DcMotor LFront, DcMotor RFront, DcMotor LBack, DcMotor RBack, DcMotorEx turret) {
+    public static void ApplyInputToMotors(double Ly, double Lx, double Rx, String
+            driveMode, DcMotor LFront, DcMotor RFront, DcMotor LBack, DcMotor RBack, DcMotorEx
+                                                  turret) {
         // Deleted this line which was previously "double Rx, String;" 2 indents forward
         {
             //Inputs
@@ -283,3 +266,5 @@ public class MORTARTeleop extends LinearOpMode {
         turret.setPower(0);
     }
 }
+
+
