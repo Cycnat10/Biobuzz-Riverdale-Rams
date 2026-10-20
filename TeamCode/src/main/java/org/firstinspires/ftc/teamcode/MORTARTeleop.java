@@ -45,7 +45,6 @@ public class MORTARTeleop extends LinearOpMode {
         LBack = hardwareMap.get(DcMotor.class, "leftback");
         RBack = hardwareMap.get(DcMotor.class, "rightback");
         turret = hardwareMap.get(DcMotorEx.class, "turret");
-        //LimeLght3A
         //LimeLight3A
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(0);
@@ -80,8 +79,8 @@ public class MORTARTeleop extends LinearOpMode {
         bottomMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
         //Do turret PIDF Later
         turret.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients());
-        leftShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
-        rightShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
+        leftShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075,0,0,14));
+        rightShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075,0,0,14));
         //Get the flicker set
         outtakeFeeder.setPosition(0);
         while (opModeIsActive()) {
@@ -98,20 +97,27 @@ public class MORTARTeleop extends LinearOpMode {
                             double a = result.getTa();//Tag Area
                             autoAiming = true;
                             //Auto Aiming Code
-
-                                // Deleted x after turret on both if statements
-                                if (autoAiming) {
-                                    if (x > 1.1) {
-                                        TurretLeft(turret);
-                                    } else if (x < -1.1) {
-                                        TurretRight(turret);
-                                    } }
-                                    if (!autoAiming) {
-                                        if (gamepad1.dpad_left) {
-                                            TurretLeft(turret);
-                                        } else if (gamepad1.dpad_right) {
-                                            TurretRight(turret);
-                                        }
+                            if (autoAiming) {
+                                if (x > 1.1) {
+                                    TurnLeft(turret);
+                                } else if (x < -1.1) {
+                                    TurnRight(turret);
+                                } else {
+                                    Stop(turret);
+                                    autoAiming = false;
+                            if(autoAiming)
+                            {
+                                if(x > 1.1)
+                                {
+                                    TurretLeft(turret, x);
+                                } else if (x < -1.1) {
+                                    TurretRight(turret, x);
+                                }
+                                if (!autoAiming) {
+                                    if (gamepad1.dpad_left) {
+                                        TurnLeft(turret);
+                                    } else if (gamepad1.dpad_right) {
+                                        TurnRight(turret);
                                     }
 
                                 //Auto-Velocity Code
@@ -123,7 +129,13 @@ public class MORTARTeleop extends LinearOpMode {
                         TurretStop(turret);
                         autoAiming = false;
                     }
-                else {
+                } else if (autoAiming) {
+                    //Stops if there is no April Tag
+                    Stop(turret);
+                    autoAiming = false;
+                } else {
+                    Stop(LFront, RFront, LBack, RBack);
+                } else {
                     //Manual Flywheel speed just in case ;)
                     if (gamepad2.left_trigger != 0) {
                         velocity = 830;
