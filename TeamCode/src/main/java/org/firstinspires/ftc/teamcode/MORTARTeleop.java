@@ -10,41 +10,34 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.subsystems.Shooter;
+
 @TeleOp(name="MORTARTeleop", group="Linear OpMode")
 public class MORTARTeleop extends LinearOpMode {
     //Electronic Variables
     //Extras
     private Limelight3A limelight;
     //Motors
-    private DcMotorEx topMotor;
-    private DcMotorEx bottomMotor;
-    private DcMotorEx leftShooter;
-    private DcMotorEx rightShooter;
+    private DcMotorEx Shooter;
     private DcMotorEx turret;
     private DcMotor intake;
     private DcMotor LFront;
     private DcMotor RFront;
     private DcMotor LBack;
     private DcMotor RBack;
-    //Servos
-    private Servo outtakeFeeder;
 
     @Override
     public void runOpMode() throws InterruptedException {
         //References to Electronics
         //Servos
-        outtakeFeeder = hardwareMap.get(Servo.class, "feeder");
         //Motors
-        topMotor = hardwareMap.get(DcMotorEx.class, "top");
-        bottomMotor = hardwareMap.get(DcMotorEx.class, "bottom");
-        leftShooter = hardwareMap.get(DcMotorEx.class, "top");
-        rightShooter = hardwareMap.get(DcMotorEx.class, "bottom");
         intake = hardwareMap.get(DcMotor.class, "intake");
         LFront = hardwareMap.get(DcMotor.class, "leftfront");
         RFront = hardwareMap.get(DcMotor.class, "rightfront");
         LBack = hardwareMap.get(DcMotor.class, "leftback");
         RBack = hardwareMap.get(DcMotor.class, "rightback");
         turret = hardwareMap.get(DcMotorEx.class, "turret");
+        Shooter = hardwareMap.get(DcMotorEx.class, "Shooter");
         //LimeLight3A
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(0);
@@ -69,20 +62,14 @@ public class MORTARTeleop extends LinearOpMode {
         LBack.setDirection(DcMotor.Direction.FORWARD);
         RFront.setDirection(DcMotor.Direction.REVERSE);
         RBack.setDirection(DcMotor.Direction.REVERSE);
-        leftShooter.setDirection(DcMotor.Direction.REVERSE);
-        leftShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
         //PIDF Coefficients
-        topMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
-        bottomMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
+        Shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
         //Do turret PIDF Later
         turret.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients());
-        leftShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
-        rightShooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
-        //Get the flicker set
-        outtakeFeeder.setPosition(0);
+        Shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
+        //Opmode rules
         while (opModeIsActive()) {
             //LimeLight3A Uses
             LLResult result = limelight.getLatestResult();
@@ -187,25 +174,20 @@ public class MORTARTeleop extends LinearOpMode {
             //Apply Powers
             //Applies power to the shooter
             if (shooterOn) {
-                topMotor.setVelocity(velocity);
-                bottomMotor.setVelocity(velocity);
+                Shooter.setVelocity(velocity);
             }
 
             //Turn off shooter
 
             //Applies power to the shooter
             if (shooterOn) {
-                leftShooter.setVelocity(velocity);
-                rightShooter.setVelocity(velocity);
+                Shooter.setVelocity(velocity);
             } else {//Turn off shooter
                 if (OnOffShooter) {
-                    leftShooter.setVelocity(0);
-                    rightShooter.setVelocity(0);
-                    leftShooter.setVelocity(-10);
-                    rightShooter.setVelocity(-10);
+                    Shooter.setVelocity(0);
+                    Shooter.setVelocity(-10);
                     sleep(400);
-                    leftShooter.setVelocity(0);
-                    rightShooter.setVelocity(0);
+                    Shooter.setVelocity(0);
                 }
             }
 
