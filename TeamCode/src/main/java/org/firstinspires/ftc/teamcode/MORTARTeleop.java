@@ -25,6 +25,7 @@ public class MORTARTeleop extends LinearOpMode {
     private DcMotor RFront;
     private DcMotor LBack;
     private DcMotor RBack;
+    private DcMotor Transfer;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -38,6 +39,7 @@ public class MORTARTeleop extends LinearOpMode {
         RBack = hardwareMap.get(DcMotor.class, "rightback");
         turret = hardwareMap.get(DcMotorEx.class, "turret");
         Shooter = hardwareMap.get(DcMotorEx.class, "Shooter");
+        Transfer = hardwareMap.get(DcMotor.class,"Transfer");
         //LimeLight3A
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(0);
@@ -148,12 +150,19 @@ public class MORTARTeleop extends LinearOpMode {
                 }
             }
             //Intake
-            if (gamepad1.right_bumper) {
-                intake.setPower(-1);
+            if (gamepad1.right_trigger > 0) {
+                intake.setPower(-0.75);
+                Transfer.setPower(0.75);
+            } else if (gamepad1.left_trigger > 0) {
+                intake.setPower(-0.75);
+            } else if (gamepad1.right_bumper) {
+                intake.setPower(0.75);
+                Transfer.setPower(-0.75);
             } else if (gamepad1.left_bumper) {
-                intake.setPower(1);
+                intake.setPower(0.75);
             } else {
                 intake.setPower(0);
+                Transfer.setPower(0);
             }
 
             //Change Drive Mode
