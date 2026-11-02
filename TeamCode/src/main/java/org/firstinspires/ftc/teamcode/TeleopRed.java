@@ -8,12 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.subsystems.Shooter;
-
-@TeleOp(name="MORTARTeleop", group="Linear OpMode")
-public class MORTARTeleop extends LinearOpMode {
+@TeleOp(name="TeleopRed", group="Linear OpMode")
+public class TeleopRed extends LinearOpMode {
     //Electronic Variables
     //Extras
     private Limelight3A limelight;
@@ -81,7 +78,7 @@ public class MORTARTeleop extends LinearOpMode {
                     for (LLResultTypes.FiducialResult tag : result.getFiducialResults()) {
                         int tagId = tag.getFiducialId();
                         //Checks if the tag is not the Obelisk
-                        if (tagId != 21 && tagId != 22 && tagId != 23) {
+                        if (tagId != 30 && tagId != 31 && tagId != 32 &&tagId != 33 && tagId != 34 && tagId != 35 &&tagId != 36 && tagId != 37) {
                             double x = result.getTx();//Tag X Position
                             double a = result.getTa();//Tag Area
                             autoAiming = true;
