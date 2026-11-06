@@ -83,16 +83,16 @@ public class TeleopRed extends LinearOpMode {
                             double a = result.getTa();//Tag Area
                             autoAiming = true;
                             //Auto Aiming Code
-                            if (autoAiming) {
-                                if (x > 1.1) {
-                                    TurretLeft(turret);
-                                } else if (x < -1.1) {
-                                    TurretRight(turret);
-                                } else {
-                                    TurretStop(turret);
-                                    autoAiming = false;
-                                }
-                            }
+//                            if (autoAiming) {
+//                                if (x > 1.1) {
+//                                    TurretLeft(turret);
+//                                } else if (x < -1.1) {
+//                                    TurretRight(turret);
+//                                } else {
+//                                    TurretStop(turret);
+//                                    autoAiming = false;
+//                                }
+//                            }
                             //Auto-Velocity Code
                             velocity = 1325 - ((195 * a) - 30);
                         }
@@ -101,11 +101,11 @@ public class TeleopRed extends LinearOpMode {
             }    // Deleted the else before 'if'
             else if (autoAiming) {
                 //Stops if there is no April Tag
-                TurretStop(turret);
+//                TurretStop(turret);
                 autoAiming = false;
             } else if (autoAiming) {
                 //Stops if there is no April Tag
-                TurretStop(turret);
+//                TurretStop(turret);
                 autoAiming = false;
             }  else{
                 //Manual Flywheel speed just in case ;)
@@ -249,10 +249,10 @@ public class TeleopRed extends LinearOpMode {
     }
 
     //Stop turret
-    public static void TurretStop(DcMotorEx turret) {
-        //Applying Power the turret
-        turret.setPower(0);
-    }
+//    public static void TurretStop(DcMotorEx turret) {
+//        //Applying Power the turret
+//        turret.setPower(0);
+//    }
 }
 
 
