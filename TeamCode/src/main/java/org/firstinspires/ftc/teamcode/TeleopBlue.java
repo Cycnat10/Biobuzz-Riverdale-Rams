@@ -61,12 +61,12 @@ public class TeleopBlue extends LinearOpMode {
         LBack.setDirection(DcMotor.Direction.FORWARD);
         RFront.setDirection(DcMotor.Direction.REVERSE);
         RBack.setDirection(DcMotor.Direction.REVERSE);
-        turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
         //PIDF Coefficients
         Shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
         //Do turret PIDF Later
-        turret.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients());
+//        turret.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients());
         Shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
         //Opmode rules
         while (opModeIsActive()) {
@@ -112,15 +112,17 @@ public class TeleopBlue extends LinearOpMode {
 //            }  else{
                 //Manual Flywheel speed just in case ;)
                 if (gamepad2.left_trigger != 0) {
-                    velocity = 1600;
+                    velocity = 1000;
                 } else {
                     velocity = 1600;
                 }
             //}
-            if (gamepad1.dpad_left){
-                turret.setPower(-0.25);
-            } else if (gamepad1.dpad_right) {
-                turret.setPower(0.25);
+            if (gamepad2.dpad_left){
+                turret.setPower(-0.4);
+            } else if (gamepad2.dpad_right) {
+                turret.setPower(0.4);
+            } else {
+                turret.setPower(0);
             }
 
 
@@ -170,19 +172,6 @@ public class TeleopBlue extends LinearOpMode {
             }
 
             //Change Drive Mode
-            if (ableToSwitchMode) {
-                if (gamepad1.a && driveMode.equals("FAST")) {
-                    ableToSwitchMode = false;
-                    driveMode = "SLOW";
-                } else if (gamepad1.a && driveMode.equals("SLOW")) {
-                    ableToSwitchMode = false;
-                    driveMode = "FAST";
-                }
-            } else {
-                if (!gamepad1.a) {
-                    ableToSwitchMode = true;
-                }
-            }
 
             //Apply Powers
             //Applies power to the shooter
