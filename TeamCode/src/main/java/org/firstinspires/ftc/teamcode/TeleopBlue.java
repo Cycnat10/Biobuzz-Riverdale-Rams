@@ -8,15 +8,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.subsystems.Shooter;
-
-@TeleOp(name="MORTARTeleop", group="Linear OpMode")
-public class MORTARTeleop extends LinearOpMode {
+@TeleOp(name="TeleopBlue", group="Linear OpMode")
+public class TeleopBlue extends LinearOpMode {
     //Electronic Variables
     //Extras
-    private Limelight3A limelight;
+//    private Limelight3A limelight;
     //Motors
     private DcMotorEx Shooter;
     private DcMotorEx turret;
@@ -41,15 +38,15 @@ public class MORTARTeleop extends LinearOpMode {
         Shooter = hardwareMap.get(DcMotorEx.class, "Shooter");
         Transfer = hardwareMap.get(DcMotor.class,"Transfer");
         //LimeLight3A
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        limelight.pipelineSwitch(0);
-        limelight.start();
+//        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+//        limelight.pipelineSwitch(0);
+//        limelight.start();
         //Variables
         //Booleans
         boolean shooterOn = true;
         boolean OnOffShooter = false;
         boolean ableToSwitchMode = true;
-        boolean autoAiming = true;
+        boolean autoAiming = false;
         boolean ableToAim = true;
         boolean TurretLeft = false;
         boolean TurretRight = false;
@@ -57,88 +54,97 @@ public class MORTARTeleop extends LinearOpMode {
         //Modes
         String driveMode = "FAST";
         //Numbers
-        double velocity = 800;
+        double velocity = 1600;
         //Setup for Electronics
         //Motors
         LFront.setDirection(DcMotor.Direction.FORWARD);
         LBack.setDirection(DcMotor.Direction.FORWARD);
         RFront.setDirection(DcMotor.Direction.REVERSE);
         RBack.setDirection(DcMotor.Direction.REVERSE);
-        turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
         //PIDF Coefficients
         Shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
         //Do turret PIDF Later
-        turret.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients());
+//        turret.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients());
         Shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(8.075, 0, 0, 14));
         //Opmode rules
         while (opModeIsActive()) {
+            ApplyInputToMotors(gamepad1.left_stick_y, gamepad1.left_stick_x,gamepad1.right_stick_x,LFront,RFront,LBack,RBack);
             //LimeLight3A Uses
-            LLResult result = limelight.getLatestResult();
-            if (result != null) {
-                if (result.isValid()) {
-                    //Goes through all the Tags
-                    for (LLResultTypes.FiducialResult tag : result.getFiducialResults()) {
-                        int tagId = tag.getFiducialId();
-                        //Checks if the tag is not the Obelisk
-                        if (tagId != 21 && tagId != 22 && tagId != 23) {
-                            double x = result.getTx();//Tag X Position
-                            double a = result.getTa();//Tag Area
-                            autoAiming = true;
-                            //Auto Aiming Code
-                            if (autoAiming) {
-                                if (x > 1.1) {
-                                    TurretLeft(turret);
-                                } else if (x < -1.1) {
-                                    TurretRight(turret);
-                                } else {
-                                    TurretStop(turret);
-                                    autoAiming = false;
-                                }
-                            }
-                            //Auto-Velocity Code
-                            velocity = 1325 - ((195 * a) - 30);
-                        }
-                    }
-                }
-            }    // Deleted the else before 'if'
-            else if (autoAiming) {
-                //Stops if there is no April Tag
-                TurretStop(turret);
-                autoAiming = false;
-            } else if (autoAiming) {
-                //Stops if there is no April Tag
-                TurretStop(turret);
-                autoAiming = false;
-            }  else{
+//            LLResult result = limelight.getLatestResult();
+//            if (result != null) {
+//                if (result.isValid()) {
+//                    //Goes through all the Tags
+//                    for (LLResultTypes.FiducialResult tag : result.getFiducialResults()) {
+//                        int tagId = tag.getFiducialId();
+//                        //Checks if the tag is not the Obelisk
+//                        if (tagId != 38 && tagId != 39 && tagId != 40 &&tagId != 41 && tagId != 42 && tagId != 43 &&tagId != 44 && tagId != 45) {
+//                            double x = result.getTx();//Tag X Position
+//                            double a = result.getTa();//Tag Area
+//                            autoAiming = true;
+//                            //Auto Aiming Code
+//                            if (autoAiming) {
+//                                if (x > 1.1) {
+//                                    TurretLeft(turret);
+//                                } else if (x < -1.1) {
+//                                    TurretRight(turret);
+//                                } else {
+//                                    TurretStop(turret);
+//                                    autoAiming = false;
+//                                }
+//                            }
+//                            //Auto-Velocity Code
+//                            velocity = 1325 - ((195 * a) - 30);
+//                        }
+//                    }
+//                }
+//            }    // Deleted the else before 'if'
+//            else
+//                if (autoAiming) {
+//                //Stops if there is no April Tag
+//                TurretStop(turret);
+//                autoAiming = false;
+//            } else if (autoAiming) {
+//                //Stops if there is no April Tag
+//                TurretStop(turret);
+//                autoAiming = false;
+//            }  else{
                 //Manual Flywheel speed just in case ;)
                 if (gamepad2.left_trigger != 0) {
-                    velocity = 830;
+                    velocity = 1000;
                 } else {
-                    velocity = 635;
+                    velocity = 1600;
                 }
+            //}
+            if (gamepad2.dpad_left){
+                turret.setPower(-0.4);
+            } else if (gamepad2.dpad_right) {
+                turret.setPower(0.4);
+            } else {
+                turret.setPower(0);
             }
 
 
             //Driving
 
             //Aiming
-            if (ableToAim) {
-                if (gamepad1.left_trigger != 0 && !autoAiming) {
-                    ableToAim = false;
-
-                    autoAiming = true;
-                } else if (gamepad1.left_trigger != 0 && autoAiming) {
-                    ableToAim = false;
-
-                    autoAiming = false;
-                }
-            } else {
-                if (gamepad1.left_trigger == 0) {
-                    ableToAim = true;
-                }
-            }
-            //Shooter On Off
+//            if (ableToAim) {
+//                if (gamepad1.left_trigger != 0 && !autoAiming) {
+//                    ableToAim = false;
+//
+//                    autoAiming = true;
+//                } else if (gamepad1.left_trigger != 0 && autoAiming) {
+//                    ableToAim = false;
+//
+//                    autoAiming = false;
+//                }
+//            } else {
+//                if (gamepad1.left_trigger == 0) {
+//                    ableToAim = true;
+//                }
+//            }
+//            //Shooter On Off
             if (!OnOffShooter) {
                 if (gamepad2.x) {
                     OnOffShooter = true;
@@ -151,34 +157,21 @@ public class MORTARTeleop extends LinearOpMode {
             }
             //Intake
             if (gamepad1.right_trigger > 0) {
-                intake.setPower(-0.75);
+                intake.setPower(1);
                 Transfer.setPower(0.75);
             } else if (gamepad1.left_trigger > 0) {
-                intake.setPower(-0.75);
+                intake.setPower(1);
             } else if (gamepad1.right_bumper) {
-                intake.setPower(0.75);
+                intake.setPower(-1);
                 Transfer.setPower(-0.75);
             } else if (gamepad1.left_bumper) {
-                intake.setPower(0.75);
+                intake.setPower(-1);
             } else {
                 intake.setPower(0);
                 Transfer.setPower(0);
             }
 
             //Change Drive Mode
-            if (ableToSwitchMode) {
-                if (gamepad1.a && driveMode.equals("FAST")) {
-                    ableToSwitchMode = false;
-                    driveMode = "SLOW";
-                } else if (gamepad1.a && driveMode.equals("SLOW")) {
-                    ableToSwitchMode = false;
-                    driveMode = "FAST";
-                }
-            } else {
-                if (!gamepad1.a) {
-                    ableToSwitchMode = true;
-                }
-            }
 
             //Apply Powers
             //Applies power to the shooter
@@ -213,16 +206,14 @@ public class MORTARTeleop extends LinearOpMode {
 
 
     //Applies input to the Drive Motors
-    public static void ApplyInputToMotors(double Ly, double Lx, double Rx, String
-            driveMode, DcMotor LFront, DcMotor RFront, DcMotor LBack, DcMotor RBack, DcMotorEx
-                                                  turret) {
+    public static void ApplyInputToMotors(double Ly, double Lx, double Rx, DcMotor LFront, DcMotor RFront, DcMotor LBack, DcMotor RBack) {
         // Deleted this line which was previously "double Rx, String;" 2 indents forward
         {
             //Inputs
-            if (driveMode.equals("SLOW")) {
-                Ly = Ly * .5;
-                Lx = Lx * .5;
-            }
+//            if (driveMode.equals("SLOW")) {
+//                Ly = Ly * .5;
+//                Lx = Lx * .5;
+//            }
             //Computing Powers
             double LeftFrontWheel = Ly - Lx - Rx;
             double RightFrontWheel = Ly + Lx + Rx;
