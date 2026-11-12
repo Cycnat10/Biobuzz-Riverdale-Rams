@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 @TeleOp(name="TeleopBlue", group="Linear OpMode")
@@ -31,8 +32,8 @@ public class BogeyBot extends LinearOpMode {
         //Setup for Electronics
         //Motors
         LFront.setDirection(DcMotor.Direction.FORWARD);
-        LBack.setDirection(DcMotor.Direction.FORWARD);
-        RFront.setDirection(DcMotor.Direction.REVERSE);
+        LBack.setDirection(DcMotor.Direction.REVERSE);
+        RFront.setDirection(DcMotor.Direction.FORWARD);
         RBack.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();

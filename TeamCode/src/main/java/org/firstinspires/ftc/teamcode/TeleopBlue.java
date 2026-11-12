@@ -230,14 +230,14 @@ public class TeleopBlue extends LinearOpMode {
 
     //Turn turret right
     public static void TurretRight(DcMotorEx turret) {
-        double power = .12;
+        double power = .35;
         //Applying Power the turret
         turret.setPower(power);
     }
 
     //Turn turret left
     public static void TurretLeft(DcMotorEx turret) {
-        double power = .12;
+        double power = .35;
         //Applying Power the turret
         turret.setPower(-power);
     }
