@@ -28,9 +28,6 @@ public class BogeyBot extends LinearOpMode {
         RBack = hardwareMap.get(DcMotor.class, "rightback");
 
         //Modes
-        String driveMode = "FAST";
-        //Numbers
-        double velocity = 1600;
         //Setup for Electronics
         //Motors
         LFront.setDirection(DcMotor.Direction.FORWARD);
@@ -43,12 +40,6 @@ public class BogeyBot extends LinearOpMode {
 
         while (opModeIsActive()) {
             ApplyInputToMotors(gamepad1.left_stick_y, gamepad1.left_stick_x,gamepad1.right_stick_x,LFront,RFront,LBack,RBack);
-
-            if (gamepad2.left_trigger != 0) {
-                velocity = 1000;
-            } else {
-                velocity = 1600;
-            }
 
         }
     }
